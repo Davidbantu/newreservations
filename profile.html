@@ -78,9 +78,7 @@
     let currentNames = [];
     let activeName = 'RAVINTOLA TANDOORI VILLA';
 
-    const PIN_KEY = 'reservationPin';
-    const PIN_ENABLED_KEY = 'pinEnabled';
-    const LOCKED_KEY = 'locked';
+    // PIN values synced from Firebase settings
 
     function normalizeNames(val) {
         if(!val) return [];
@@ -122,6 +120,11 @@
             db.ref('settings/activeRestaurantName').set(activeName);
         }
         renderNames();
+
+        // Update PIN UI from Firebase
+        pinInput.value = data.pin || '';
+        pinToggle.checked = data.pinEnabled === true;
+        logoutBtn.style.display = data.pinEnabled === true ? 'inline-block' : 'none';
     });
 
     document.getElementById('name-list').addEventListener('click', function(e){
@@ -166,27 +169,23 @@
     const savePinBtn = document.getElementById('save-pin-btn');
     const logoutBtn = document.getElementById('logout-btn');
 
-    const savedPin = localStorage.getItem(PIN_KEY) || '';
-    const pinEnabled = localStorage.getItem(PIN_ENABLED_KEY) === 'true';
-    pinInput.value = savedPin;
-    pinToggle.checked = pinEnabled;
-    logoutBtn.style.display = pinEnabled ? 'inline-block' : 'none';
-
     savePinBtn.addEventListener('click', ()=> {
         const pin = pinInput.value.trim();
         if(pin && !/^\d{4,6}$/.test(pin)) {
             alert('PIN must be 4-6 digits.');
             return;
         }
-        localStorage.setItem(PIN_KEY, pin);
-        localStorage.setItem(PIN_ENABLED_KEY, pinToggle.checked);
+        db.ref('settings/pin').set(pin);
+        db.ref('settings/pinEnabled').set(pinToggle.checked);
+        db.ref('settings/locked').set(pinToggle.checked ? true : false);
         alert('PIN settings saved.');
         logoutBtn.style.display = pinToggle.checked ? 'inline-block' : 'none';
     });
 
     logoutBtn.addEventListener('click', ()=> {
-        localStorage.setItem(LOCKED_KEY, 'true');
-        window.location.href = 'index.html';
+        db.ref('settings/locked').set(true, () => {
+            window.location.href = 'index.html';
+        });
     });
 </script>
 </body>
