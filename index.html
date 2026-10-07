@@ -444,19 +444,37 @@
     const lockPin = document.getElementById('lock-pin');
     const unlockBtn = document.getElementById('unlock-btn');
     const mainContainer = document.querySelector('.container');
-    if(localStorage.getItem('pinEnabled') === 'true' && localStorage.getItem('locked') === 'true') {
-        if(mainContainer) mainContainer.style.display = 'none';
-        if(lockScreen) lockScreen.style.display = 'flex';
+
+    let currentPin = '';
+    let pinEnabled = false;
+    let locked = false;
+
+    function updateLockState() {
+        if(!lockScreen) return;
+        if(pinEnabled && locked) {
+            lockScreen.style.display = 'flex';
+            if(mainContainer) mainContainer.style.display = 'none';
+        } else {
+            lockScreen.style.display = 'none';
+            if(mainContainer) mainContainer.style.display = 'block';
+        }
     }
+
+    db.ref('settings').on('value', snap => {
+        const data = snap.val() || {};
+        currentPin = data.pin || '';
+        pinEnabled = data.pinEnabled === true;
+        locked = data.locked === true;
+        updateLockState();
+    });
+
     if(unlockBtn) {
         unlockBtn.addEventListener('click', ()=> {
-            const storedPin = localStorage.getItem('reservationPin');
-            if(lockPin && lockPin.value === storedPin) {
-                localStorage.setItem('locked', 'false');
-                if(lockScreen) lockScreen.style.display = 'none';
-                if(mainContainer) mainContainer.style.display = 'block';
+            if(lockPin && lockPin.value === currentPin) {
+                db.ref('settings/locked').set(false);
             } else {
                 alert('Incorrect PIN');
+                if(lockPin) lockPin.value = '';
             }
         });
     }
