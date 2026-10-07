@@ -434,7 +434,11 @@
     const db = firebase.database();
 
     const restaurantTitle = document.getElementById('restaurant-title');
-    if(restaurantTitle) restaurantTitle.textContent = localStorage.getItem('activeRestaurantName') || 'RAVINTOLA TANDOORI VILLA';
+    if(restaurantTitle) {
+        db.ref('settings/activeRestaurantName').on('value', snap => {
+            restaurantTitle.textContent = snap.val() || 'RAVINTOLA TANDOORI VILLA';
+        });
+    }
 
     const lockScreen = document.getElementById('lock-screen');
     const lockPin = document.getElementById('lock-pin');
