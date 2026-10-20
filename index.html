@@ -266,20 +266,26 @@
             .mobile-add-section { display: flex; justify-content: center; margin: 20px 0; }
             .mobile-add-section .add-btn { padding: 14px 28px; font-size: 1.05rem; border-radius: 6px; box-shadow: 0 0 15px rgba(26,115,232,.4); }
             .top-bar { padding: 16px 0; }
-            .summary-row, .filter-row { gap: 8px; margin-bottom: 18px; }
-            .summary-row, .filter-row { flex-wrap: wrap; }
-            .summary-box { flex: 1 1 calc(33% - 8px); min-width: auto; padding: 10px 4px; }
-            .summary-box .icon { font-size: 12px; }
-            .summary-box .count { font-size: 16px; }
-            .summary-box .label { font-size: 9px; }
-            .filter-box { flex: 1 1 calc(33% - 8px); min-width: auto; padding: 10px 5px; font-size: 10px; }
-            .filter-box .count { font-size: 12px; margin-bottom: 0; }
-            .date-selector-row { flex-wrap: wrap; }
-            .date-selector-left { flex-wrap: wrap; }
-            .important-dates { flex-basis: calc(100% - 42px); order: 3; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
-            .imp-add { order: 4; width: 26px; height: 26px; font-size: 12px; }
-            .imp-chip { padding: 3px 9px; font-size: 11px; }
-            .imp-chip .imp-note { font-size: 10px; max-width: 80px; }
+            .summary-row { gap: 10px; margin-bottom: 14px; flex-wrap: nowrap; overflow-x: auto; padding: 8px 4px; }
+            .summary-box { flex: 1 1 0; min-width: auto; padding: 14px 6px; flex-direction: column; gap: 4px; }
+            .summary-box .icon { font-size: 18px; }
+            .summary-box .count { font-size: 24px; }
+            .summary-box .label { font-size: 11px; }
+            .filter-row { gap: 8px; margin-bottom: 14px; flex-wrap: nowrap; overflow-x: auto; padding: 8px 4px; }
+            .filter-box { flex: 0 0 auto; padding: 11px 16px; font-size: 12px; gap: 8px; }
+            .filter-box .count { font-size: 14px; }
+            .date-selector-row { flex-direction: column; align-items: stretch; gap: 10px; }
+            .date-selector-left { flex-wrap: wrap; gap: 10px; }
+            .date-selector-left > label { flex: 1 1 100%; font-size: 13px; margin-right: 0 !important; }
+            .date-selector-group { flex: 1 1 100%; }
+            .month-selector, .date-selector { flex: 1; width: 100%; font-size: 13px; padding: 11px 12px; }
+            .important-dates { flex: 1 1 calc(100% - 44px); order: 5; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+            .imp-add { order: 6; width: 28px; height: 28px; font-size: 13px; }
+            .imp-chip { padding: 4px 10px; font-size: 11px; }
+            .imp-chip .imp-note { font-size: 10px; max-width: 90px; }
+            .date-selector-row > div:last-child { text-align: right; }
+            .refresh-btn { padding: 9px 14px; font-size: 12px; }
+            .mobile-add-section .add-btn { width: 100%; max-width: 340px; }
             .cards-grid { grid-template-columns: 1fr; }
             .card-box { font-size: 15px; }
             .card-header { padding: 14px 14px; }
