@@ -379,7 +379,7 @@
         </div>
         <div class="restaurant-title" id="restaurant-title">RAVINTOLA TANDOORI VILLA</div>
         <div class="top-actions">
-            <button class="add-btn desktop-add-btn" onclick="window.open('reservation.html','_blank')"><i class="fa fa-plus"></i> Add New Reservation</button>
+            <button class="add-btn desktop-add-btn" onclick="window.location.href='reservation.html'"><i class="fa fa-plus"></i> Add New Reservation</button>
             <button class="notification-btn" id="notification-btn" title="Notifications"><i class="fas fa-bell"></i><span class="notification-badge" id="notification-badge">0</span></button>
             <button class="login-btn" onclick="window.location.href='profile.html'" title="Profile"><i class="fas fa-user"></i></button>
             <div class="notification-panel" id="notification-panel">
@@ -490,7 +490,7 @@
     </div>
 
     <div class="mobile-add-section">
-        <button class="add-btn mobile-add-btn" onclick="window.open('reservation.html','_blank')"><i class="fa fa-plus"></i> Add New Reservation</button>
+        <button class="add-btn mobile-add-btn" onclick="window.location.href='reservation.html'"><i class="fa fa-plus"></i> Add New Reservation</button>
     </div>
 
     <div class="imp-modal" id="imp-modal">
@@ -971,7 +971,8 @@
 
     function renderHoldList() {
         if(!holdList) return;
-        const held = reservations.filter(r => r.held);
+        const heldIds = new Set();
+        const held = reservations.filter(r => r.held && !heldIds.has(r.id) && heldIds.add(r.id));
         held.sort((a,b) => String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
         if(!held.length) {
             holdList.innerHTML = '<div class="hold-empty">No new reservations</div>';
@@ -1723,8 +1724,14 @@
 
     let initialReservationsLoaded = false;
     const seenReservationIds = new Set();
+    let reservationsListenerStarted = false;
 
     function loadReservations() {
+        /* .on('value') already keeps data in sync in realtime — registering a
+           second listener (this was called again after edits/errors) caused the
+           same new reservation to render in Hold AND Reservations at once. */
+        if(reservationsListenerStarted) return;
+        reservationsListenerStarted = true;
         db.ref('reservations').on('value', snapshot => {
             reservations = [];
             snapshot.forEach(child => {
