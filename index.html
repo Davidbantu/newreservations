@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RAVINTOLA TANDOORI VILLA - Reservations Dashboard</title>
+    <title>BDM - Reservations Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,7 +14,7 @@
             --accent: #1a73e8;
             --border: #333;
             --box-padding: 16px;
-            --pending: #ff9800;
+            --pending: #1a73e8;
             --completed: #205c26;
             --cancelled: #992424;
             --edit-btn: #ffd54f;
@@ -33,10 +33,39 @@
         .container { max-width: 1100px; margin: 36px auto 20px; padding: 0 12px; }
 
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 14px 0; flex-wrap: nowrap; position: relative; }
+        .top-hero-wrap { position: relative; background: linear-gradient(155deg, #0a0a0f 0%, #101018 55%, #0b0b12 100%); border: 1px solid var(--border); border-radius: 8px 34px 8px 34px; padding: 14px 14px 12px; margin-bottom: 18px; box-shadow: 0 20px 46px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05); overflow: hidden; }
+        .top-hero-wrap::before { content: ''; position: absolute; top: 0; left: 8px; right: 34px; height: 2px; background: linear-gradient(90deg, transparent, rgba(26,115,232,.7), transparent); pointer-events: none; }
+        .top-hero { position: relative; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 14px 16px; margin-bottom: 0; overflow: hidden; }
+        .top-hero::before { content: ''; position: absolute; top: -60%; right: -8%; width: 340px; height: 340px; background: radial-gradient(circle, rgba(26,115,232,.18) 0%, transparent 65%); pointer-events: none; }
+        .top-hero-main { display: flex; align-items: center; justify-content: space-between; gap: 14px; position: relative; z-index: 1; }
+        .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+        .brand-logo { width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(145deg, #233dff 0%, #1a237e 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 21px; flex-shrink: 0; box-shadow: 0 6px 18px rgba(35,61,255,.4), inset 0 1px 0 rgba(255,255,255,.25); }
+        .brand-text { min-width: 0; }
+        .brand-sub { font-size: 11px; color: #9fb2ff; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 700; margin-top: 3px; }
+        .wx-card { position: relative; margin: 14px 0 0; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+        .wx-current { flex: 0 0 auto; display: flex; align-items: center; }
+        .wx-now { display: flex; align-items: center; gap: 12px; }
+        .wx-now > i { font-size: 26px; width: 36px; text-align: center; }
+        .wx-temp { font-size: 30px; font-weight: 900; color: #fff; line-height: 1; }
+        .wx-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .wx-info b { font-size: 13px; color: #fff; letter-spacing: .5px; }
+        .wx-info em { font-style: normal; font-size: 11px; color: rgba(255,255,255,.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .wi-sun { color: #ffd166; } .wi-moon { color: #c9d6ff; } .wi-cloud { color: #9aa7bd; } .wi-rain { color: #64b5f6; } .wi-snow { color: #b2ebf2; } .wi-storm { color: #b388ff; } .wi-fog { color: #90a4ae; } .wi-wind { color: #b0bec5; }
+        .wx-photos { position: relative; width: 100%; min-height: 150px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); }
+        .wx-photos::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.45) 100%); pointer-events: none; }
+        .wx-photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: wxSlide 21s ease-in-out infinite; }
+        .wx-photos img:nth-child(2) { animation-delay: 7s; }
+        .wx-photos img:nth-child(3) { animation-delay: 14s; }
+        @keyframes wxSlide { 0% { opacity: 0; } 4% { opacity: 1; } 33% { opacity: 1; } 38% { opacity: 0; } 100% { opacity: 0; } }
+        .req-btn { position: relative; background: transparent; border: 2px solid var(--accent); color: var(--accent); border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; font-size: 15px; }
+        .req-btn:hover { background: var(--accent); color: #fff; }
+        .req-label { position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); font-size: 7.5px; font-weight: 900; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+        @keyframes holdFlash { 0%, 100% { border-color: var(--border); box-shadow: none; } 40% { border-color: var(--accent); box-shadow: 0 0 22px rgba(35,61,255,.55); } }
+        .hold-box.flash { animation: holdFlash 1.4s ease; }
         .live-clock { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; background: linear-gradient(180deg, #1e1e1e 0%, #0a0a0a 100%); border: 1px solid rgba(0,0,0,.6); border-radius: 14px; padding: 8px 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,.15), inset 0 -3px 0 rgba(0,0,0,.5), 0 5px 0 rgba(0,0,0,.55), 0 10px 18px rgba(0,0,0,.5); font-family: 'Montserrat', 'Arial', sans-serif; z-index: 2; }
         .live-clock .clock-time { font-size: 18px; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 0 0 8px rgba(255,255,255,.55), 0 2px 0 #000, 0 1px 3px rgba(0,0,0,.8); font-variant-numeric: tabular-nums; }
         .live-clock .clock-date { font-size: 10px; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-top: 1px; }
-        .restaurant-title { font-size: 2.2rem; font-weight: 900; letter-spacing: 2px; color: var(--accent); text-align: center; flex: 1; text-transform: uppercase; text-shadow: 0 0 10px rgba(26,115,232,.45); }
+        .restaurant-title { font-size: 2rem; font-weight: 900; letter-spacing: 2px; color: #fff; text-transform: uppercase; text-shadow: 0 0 16px rgba(26,115,232,.5); white-space: nowrap; }
 
         .top-actions { display: flex; align-items: center; gap: 10px; position: relative; }
         .add-btn { background: linear-gradient(90deg, #233dff 0%, #1a237e 100%); color: #fff; border: none; border-radius: 6px; padding: 10px 22px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: filter .2s, transform .2s; display: flex; align-items: center; gap: 8px;}
@@ -82,8 +111,8 @@
         .summary-box .count { font-family: 'Montserrat', 'Arial', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: 1px; margin-bottom: 0; }
         .summary-box .label { font-size: 15px; color: #fff; margin-top: 0; font-family: 'Montserrat', 'Arial', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
 
-        .filter-box { flex: 1 1 0; min-width: auto; background: linear-gradient(180deg, #233dff 0%, #1a237e 100%); border-radius: 14px; padding: 16px 14px; display: flex; flex-direction: row; align-items: center; cursor: pointer; font-size: 15px; font-weight: 700; color: #fff; justify-content: center; gap: 10px; transition: transform .12s, box-shadow .12s; border: 1px solid rgba(0,0,0,.55); font-family: 'Montserrat', 'Arial', sans-serif; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -3px 0 rgba(0,0,0,.35), 0 5px 0 rgba(0,0,0,.55), 0 10px 18px rgba(0,0,0,.45); }
-        .filter-box .count { font-size: 19px; font-weight: 800; margin-bottom: 0; font-family: 'Montserrat', 'Arial', sans-serif; }
+        .filter-box { flex: 1 1 0; min-width: auto; background: linear-gradient(180deg, #233dff 0%, #1a237e 100%); border-radius: 14px; padding: 16px 14px; display: flex; flex-direction: row; align-items: center; cursor: pointer; font-size: 15px; font-weight: 700; color: #fff; justify-content: center; gap: 14px; transition: transform .12s, box-shadow .12s; border: 1px solid rgba(0,0,0,.55); font-family: 'Montserrat', 'Arial', sans-serif; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -3px 0 rgba(0,0,0,.35), 0 5px 0 rgba(0,0,0,.55), 0 10px 18px rgba(0,0,0,.45); }
+        .filter-box .count { font-size: 24px; font-weight: 800; margin-bottom: 0; font-family: 'Montserrat', 'Arial', sans-serif; line-height: 1; }
         .filter-box.selected { outline: none; border-color: #fff; filter: brightness(1.2); animation: none; }
         .filter-box:hover { transform: translateY(-1px); }
         .filter-box:active { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 -1px 0 rgba(0,0,0,.3), 0 2px 0 rgba(0,0,0,.55), 0 4px 8px rgba(0,0,0,.4); }
@@ -190,7 +219,7 @@
         .res-full-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-right: 40px; margin-bottom: 10px; }
         .res-full-name { font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: .5px; }
         .res-full-status { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 5px 12px; border-radius: 999px; flex-shrink: 0; }
-        .res-full-status.st-pending { background: rgba(255,152,0,.15); color: #ffb74d; border: 1px solid rgba(255,152,0,.4); }
+        .res-full-status.st-pending { background: rgba(26,115,232,.18); color: #9fb2ff; border: 1px solid rgba(26,115,232,.45); }
         .res-full-status.st-completed { background: rgba(67,234,122,.12); color: #43ea7a; border: 1px solid rgba(67,234,122,.4); }
         .res-full-status.st-cancelled { background: rgba(255,61,61,.12); color: #ff6b6b; border: 1px solid rgba(255,61,61,.4); }
         .rf-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 4px; border-bottom: 1px solid rgba(255,255,255,.06); }
@@ -207,13 +236,13 @@
         .rf-status-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; }
         .rf-status-edit .status-toggle { display: flex; width: 100%; }
         .rf-status-edit .st-btn { flex: 1; padding: 10px 0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .hold-box { flex: 0 0 300px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; }
+        .hold-box { flex: 0 0 300px; box-sizing: border-box; background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; }
         .hold-box h3 { margin: 0 0 10px; font-size: 13px; color: #fff; text-transform: uppercase; letter-spacing: .5px; }
-        .hold-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 260px; flex: 1; }
-        .hold-item { background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 10px; padding: 9px 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; animation: fadeSlideUp .3s ease both; }
-        .hold-info { min-width: 0; }
+        .hold-list { display: grid; grid-template-columns: 1fr; gap: 8px; overflow-y: auto; flex: 1 1 auto; min-height: 0; max-height: 300px; padding-right: 3px; scrollbar-width: thin; scrollbar-color: #3a3a46 transparent; }
+        .hold-item { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 10px; padding: 9px 10px; display: flex; flex-direction: column; gap: 8px; animation: fadeSlideUp .3s ease both; }
+        .hold-info { min-width: 0; background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
         .hold-actions { display: flex; gap: 6px; flex-shrink: 0; }
-        .hold-actions button { padding: 7px 10px; }
+        .hold-actions button { flex: 1; padding: 7px 10px; }
         .hold-name { font-weight: 800; color: #fff; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .hold-meta { color: var(--muted); font-size: 11px; margin-top: 3px; }
         .hold-confirm { background: #2e7d32; color: #fff; border: none; border-radius: 8px; padding: 7px 14px; font-size: 11px; font-weight: 800; cursor: pointer; flex-shrink: 0; }
@@ -270,7 +299,7 @@
         .pagination-btn.active { background: var(--accent); font-weight: bold; }
         .pagination-btn:disabled { background: #444; opacity: 0.5; cursor: not-allowed; }
 
-        .charts-row { display: flex; gap: 30px; flex-wrap: nowrap; margin-top: 45px; margin-bottom: 30px; justify-content: space-between; }
+        .charts-row { display: flex; gap: 30px; flex-wrap: nowrap; margin-top: 16px; margin-bottom: 10px; justify-content: space-between; }
         .chart-container { background: var(--card-bg); border-radius: 8px; padding: 18px; box-shadow: 0 2px 8px #0002; flex: 1; min-width: 340px; max-width: 530px; min-height: 320px; height: 320px; display: flex; flex-direction: column; margin-bottom: 18px; }
 
         .chart-header { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, #233dff 0%, #1a237e 100%); color: #fff; border-radius: 6px; padding: 15px 18px 10px 18px; margin-bottom: 12px; }
@@ -284,6 +313,15 @@
         .chart-totals-box { flex: 1; background: #222; color: #fff; border-radius: 6px; padding: 7px 8px; text-align: center; min-width: 80px; font-size: 13px; margin: 0 3px; font-family: 'Montserrat', Arial, sans-serif; }
         .chart-totals-label { font-size: 12px; color: #bbb; line-height: 1.2; }
         .chart-totals-count { font-size: 15px; font-weight: 700; margin-top: 1px; letter-spacing: .5px; }
+
+        /* Footer */
+        .site-footer { margin-top: 28px; padding: 18px 6px 14px; position: relative; }
+        .site-footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(26,115,232,.6), transparent); }
+        .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+        .footer-brand { font-size: 11px; font-weight: 900; letter-spacing: 2px; color: #fff; text-transform: uppercase; }
+        .footer-brand i { color: var(--accent); margin-right: 6px; }
+        .footer-copy { font-size: 11px; color: var(--muted); }
+        .footer-copy a { color: #9fb2ff; text-decoration: none; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-bg); z-index: 1000; overflow-y: auto; padding: 20px 10px; }
         .modal-content { background: linear-gradient(145deg, #1c1c26 0%, #101016 100%); margin: 20px auto; padding: 0; border-radius: 16px; width: 95%; max-width: 560px; position: relative; box-shadow: 0 0 0 1px rgba(26,115,232,.25), 0 20px 60px rgba(0,0,0,.7); border: 1px solid var(--accent); overflow: hidden; }
@@ -316,10 +354,10 @@
         .input-with-icon input[type="date"], .input-with-icon input[type="time"] { padding-right: 40px; background: var(--input-bg); color: #fff; border: 1px solid var(--border); border-radius: 6px; height: 40px; box-sizing: border-box; }
 
         .table-container table { display: none; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card-box { background: linear-gradient(145deg, #1a1a1a 0%, #121212 100%); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #555; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; font-size: 13px; word-break: break-word; box-shadow: 0 2px 8px rgba(0,0,0,.25), 0 0 18px -8px var(--day-color, transparent); transition: transform .2s, box-shadow .2s; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; margin-top: 20px; }
+        .card-box { background: linear-gradient(145deg, #1a1a1a 0%, #121212 100%); border: 1px solid rgba(255,255,255,0.06); border-left: 4px solid #555; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; font-size: 13px; word-break: break-word; box-shadow: 0 2px 8px rgba(0,0,0,.25), 0 0 18px -8px var(--day-color, transparent); transition: transform .2s, box-shadow .2s; }
         .card-box:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
-        .card-box.pending { border-left-color: #ff9800; }
+        .card-box.pending { border-left-color: var(--accent); }
         .card-box.completed { border-left-color: #43ea7a; }
         .card-box.cancelled { border-left-color: #ff3d3d; }
         .card-box.pending .card-name, .card-box.completed .card-name, .card-box.cancelled .card-name { color: #fff; }
@@ -327,7 +365,7 @@
         .card-box.completed .card-header { background: linear-gradient(180deg, #66bb6a 0%, #205c26 100%); }
         .card-box.cancelled .card-header { background: linear-gradient(180deg, #ff5252 0%, #992424 100%); }
         .card-title { display: flex; flex-direction: column; gap: 1px; }
-        .card-name { font-size: 13.5px; font-weight: 900; letter-spacing: .3px; color: #fff; text-transform: uppercase; }
+        .card-name { font-size: 15px; font-weight: 900; letter-spacing: .3px; color: #fff; text-transform: uppercase; }
         .card-day { font-size: 11px; color: rgba(255,255,255,.75); font-weight: 500; }
         .card-people { text-align: right; color: #fff; font-size: 16px; font-weight: 800; line-height: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
         .card-people span { font-size: 9px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
@@ -339,35 +377,33 @@
         .card-time { color: #fff; font-size: 11px; font-weight: 500; }
         .card-phone { color: #fff; font-size: 11px; font-weight: 700; }
         .card-note { color: #ffca28; font-size: 11px; line-height: 1.4; }
-        .card-advance { color: #fff; font-size: 12px; font-weight: 700; }
+        .card-advance { color: #fff; font-size: 15px; font-weight: 800; }
         .card-table { color: #fff; font-size: 12px; font-weight: 700; }
-        .card-head-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .card-people-m { display: flex; flex-direction: column; align-items: center; background: #0d0d14; border: 1px solid #2a2a36; border-radius: 8px; padding: 4px 10px; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.1; flex-shrink: 0; }
+        .card-head-side { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+        .card-people-m { display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0d0d14; border: 1px solid #2a2a36; border-radius: 8px; padding: 0 12px; height: 34px; box-sizing: border-box; font-size: 18px; font-weight: 800; color: #fff; line-height: 1.1; flex-shrink: 0; }
         .card-people-m span { font-size: 7px; font-weight: 600; color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: 1px; }
-        .card-head-side .card-table { display: none; }
-        .card-table-m { display: block; }
-        .card-table-m .table-select-wrapper { display: block; width: 100%; height: auto; }
-        .card-table-m .table-pill { width: 100%; }
         .card-highlights .hl-item:last-child { display: none; }
         .card-status { margin: 0; }
         .card-status-row { display: flex; justify-content: flex-end; }
         /* Triple status toggle */
-        .status-toggle { display: inline-flex; border-radius: 999px; overflow: hidden; border: 1px solid #3a3a46; background: #101016; }
-        .st-btn { border: none; background: transparent; color: #7a7a85; font-size: 11px; padding: 6px 13px; cursor: pointer; transition: all .15s; line-height: 1.1; }
-        .st-btn:hover { color: #ccc; background: #1d1d26; }
-        .st-btn.active-pending { background: var(--pending); color: #fff; }
-        .st-btn.active-completed { background: var(--completed); color: #fff; }
-        .st-btn.active-cancelled { background: var(--cancelled); color: #fff; }
+        .status-toggle { display: inline-flex; border-radius: 999px; border: 1px solid #3a3a46; background: #0b0b12; padding: 3px; gap: 3px; box-shadow: inset 0 1px 3px rgba(0,0,0,.5); }
+        .st-btn { border: none; background: transparent; color: #8a8a96; font-size: 11px; padding: 5px 12px; cursor: pointer; transition: all .18s; line-height: 1.1; border-radius: 999px; font-weight: 700; }
+        .st-btn:hover { color: #ddd; background: #1d1d26; }
+        .st-btn.active-pending { background: linear-gradient(180deg, #2979ff 0%, #1a73e8 100%); color: #fff; box-shadow: 0 2px 8px rgba(26,115,232,.4), inset 0 1px 0 rgba(255,255,255,.25); }
+        .st-btn.active-completed { background: linear-gradient(180deg, #66bb6a 0%, #2e7d32 100%); color: #fff; box-shadow: 0 2px 8px rgba(102,187,106,.35), inset 0 1px 0 rgba(255,255,255,.25); }
+        .st-btn.active-cancelled { background: linear-gradient(180deg, #ff5252 0%, #c62828 100%); color: #fff; box-shadow: 0 2px 8px rgba(255,82,82,.35), inset 0 1px 0 rgba(255,255,255,.25); }
         .card-highlights { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: #0a0a0f; border: 1px solid #23232e; border-radius: 0; border-left: none; border-right: none; border-top: none; margin: -8px -12px 0; padding: 6px 8px; }
         .hl-value { color: #f0f0f5; }
         .hl-item { display: flex; flex-direction: column; align-items: center; gap: 1px; flex: 1; }
         .hl-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
         .hl-value { font-size: 14px; font-weight: 800; color: #fff; white-space: nowrap; }
         .card-note-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 5px 8px; font-size: 12px; color: #ffca28; line-height: 1.35; min-height: 18px; }
-        .table-select-wrapper { position: relative; display: inline-block; width: 72px; height: 30px; }
-        .table-pill { display: flex; align-items: center; justify-content: center; width: 72px; height: 30px; background: linear-gradient(180deg, #233dff 0%, #1a237e 100%); color: #fff; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; box-shadow: 0 3px 10px rgba(35,61,255,.35), inset 0 1px 0 rgba(255,255,255,.18); font-family: 'Montserrat', 'Arial', sans-serif; }
+        .table-select-wrapper { position: relative; display: inline-block; width: 72px; height: 34px; }
+        .table-pill { display: flex; align-items: center; justify-content: center; width: 72px; height: 34px; background: linear-gradient(180deg, #233dff 0%, #1a237e 100%); color: #fff; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; box-shadow: 0 3px 10px rgba(35,61,255,.35), inset 0 1px 0 rgba(255,255,255,.18); font-family: 'Montserrat', 'Arial', sans-serif; }
         .card-box.completed .table-pill { background: linear-gradient(180deg, #43a047 0%, #1b5e20 100%); box-shadow: 0 3px 10px rgba(46,125,50,.35), inset 0 1px 0 rgba(255,255,255,.18); }
         .card-box.cancelled .table-pill { background: linear-gradient(180deg, #e53935 0%, #7f1a1a 100%); box-shadow: 0 3px 10px rgba(211,47,47,.35), inset 0 1px 0 rgba(255,255,255,.18); }
+        .card-box .table-select-wrapper.sel { width: 88px; }
+        .card-box .table-pill.sel { width: 88px; background: #050508; border-color: #3a3a46; color: #fff; font-size: 13px; letter-spacing: 1.5px; box-shadow: 0 3px 10px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.1); }
         .table-picker { display: none; position: fixed; z-index: 1600; background: #181820; border: 1px solid #3a3a46; border-radius: 12px; padding: 10px; width: 176px; box-shadow: 0 10px 30px rgba(0,0,0,.65); }
         .table-picker.open { display: block; animation: fadeSlideUp .18s ease both; }
         .tp-title { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; text-align: center; font-weight: 700; }
@@ -376,17 +412,50 @@
         .tp-btn:hover { border-color: var(--accent); color: #9fb2ff; }
         .tp-btn.active { background: linear-gradient(180deg, #233dff 0%, #1a237e 100%); border-color: transparent; box-shadow: 0 2px 8px rgba(35,61,255,.4); }
         .tp-btn.none { color: var(--muted); }
+        /* Status badge + picker */
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; border: none; border-radius: 7px; padding: 6px 12px; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: #fff; cursor: pointer; font-family: 'Montserrat', 'Arial', sans-serif; transition: filter .15s; }
+        .status-badge i { font-size: 9px; opacity: .85; }
+        .status-badge:hover { filter: brightness(1.15); }
+        .status-badge.pending { background: linear-gradient(180deg, #2979ff 0%, #1a73e8 100%); box-shadow: 0 2px 8px rgba(26,115,232,.4), inset 0 1px 0 rgba(255,255,255,.25); }
+        .status-badge.completed { background: linear-gradient(180deg, #66bb6a 0%, #2e7d32 100%); box-shadow: 0 2px 8px rgba(102,187,106,.35), inset 0 1px 0 rgba(255,255,255,.25); }
+        .status-badge.cancelled { background: linear-gradient(180deg, #ff5252 0%, #c62828 100%); box-shadow: 0 2px 8px rgba(255,82,82,.35), inset 0 1px 0 rgba(255,255,255,.25); }
+        .status-picker { display: none; position: fixed; z-index: 1600; background: #181820; border: 1px solid #3a3a46; border-radius: 12px; padding: 10px; width: 160px; box-shadow: 0 10px 30px rgba(0,0,0,.65); }
+        .status-picker.open { display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp .18s ease both; }
+        .status-picker .tp-title { margin-bottom: 2px; }
+        .sp-btn { display: flex; align-items: center; justify-content: flex-start; gap: 8px; background: #101018; border: 1px solid #2c2c38; color: #fff; border-radius: 8px; padding: 8px 10px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Montserrat', 'Arial', sans-serif; transition: all .15s; }
+        .sp-btn:hover { border-color: var(--accent); color: #9fb2ff; }
+        .sp-btn.pending.active { background: linear-gradient(180deg, #2979ff 0%, #1a73e8 100%); border-color: transparent; color: #fff; }
+        .sp-btn.completed.active { background: linear-gradient(180deg, #66bb6a 0%, #2e7d32 100%); border-color: transparent; color: #fff; }
+        .sp-btn.cancelled.active { background: linear-gradient(180deg, #ff5252 0%, #c62828 100%); border-color: transparent; color: #fff; }
         .card-actions { display: flex; gap: 6px; margin-top: 4px; align-items: center; }
         .card-actions .card-status { margin-left: auto; }
-        .card-actions .card-status .st-btn { font-size: 10.5px; padding: 5px 11px; }
-        .card-actions .edit-btn, .card-actions .delete-btn, .card-actions .view-btn { padding: 5px 10px; font-size: 11px; margin: 0; border-radius: 5px; background: #222; border: 1px solid #444; color: #fff; transition: all .2s; }
+        .card-actions .edit-btn, .card-actions .delete-btn, .card-actions .view-btn { padding: 6px 11px; font-size: 13px; margin: 0; border-radius: 6px; background: #222; border: 1px solid #444; color: #fff; transition: all .2s; }
+        .card-actions .delete-btn { color: #ff6b6b; }
         .card-actions .edit-btn:hover, .card-actions .delete-btn:hover, .card-actions .view-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
         .card-empty { grid-column: 1 / -1; padding: 20px; text-align: center; color: #bbb; }
+        /* Tablet: 2 cards per row */
+        @media (min-width: 651px) and (max-width: 1024px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .cal-head { flex-wrap: wrap; gap: 10px; }
+            .cal-today { margin-left: auto; }
+        }
         /* Mobile tweaks */
         @media (max-width: 650px) {
-            .restaurant-title { font-size: 1.4rem; margin-left: 0; white-space: nowrap; letter-spacing: 1px; }
+            .restaurant-title { font-size: .92rem; white-space: nowrap; letter-spacing: .8px; }
+            .top-hero-wrap { padding: 10px 10px 8px; border-radius: 6px 24px 6px 24px; }
+            .top-hero { padding: 12px 12px 16px; }
+            .top-actions { gap: 8px; }
+            .req-btn, .notification-btn, .login-btn { width: 38px; height: 38px; font-size: 14px; flex-shrink: 0; }
+            .desktop-add-btn { width: 38px; height: 38px; }
+            .brand-logo { width: 38px; height: 38px; border-radius: 10px; font-size: 15px; }
+            .brand-sub { font-size: 9px; letter-spacing: 1.5px; }
+            .wx-temp { font-size: 24px; }
+            .wx-now > i { font-size: 21px; width: 28px; }
+            .wx-photos { min-height: 110px; }
+            .brand { flex-direction: row; align-items: center; gap: 8px; }
             .cal-hold-row { flex-direction: column; }
-            .hold-box { flex: 1 1 auto; width: 100%; }
+            .hold-box { flex: 1 1 auto; width: 100%; max-height: 340px; }
+            .hold-list { grid-template-columns: 1fr; max-height: 260px; }
             .cal-box { padding: 10px; }
             .cal-day { height: 46px; font-size: 11.5px; padding: 3px 2px 3px; gap: 1px; }
             .cal-title { font-size: 11px; padding: 5px 10px; }
@@ -397,9 +466,7 @@
             .cal-today-time { font-size: 14px; letter-spacing: .5px; }
             .cal-today-date { font-size: 10px; }
             .cal-month-picker { left: 50%; margin-left: -112px; width: 225px; }
-            .card-status { flex: 1 1 100%; display: flex; margin: 6px 0 0; }
-            .card-status .status-toggle { display: flex; width: 100%; }
-            .card-status .st-btn { flex: 1; padding: 8px 0; font-size: 11px; }
+            .card-status { margin: 0 0 0 auto; }
             .container { padding: 0 8px; }
             .cal-day .cal-badge { font-size: 7.5px; line-height: 1.1; gap: 2px; }
             .cal-day .cal-note { font-size: 6.5px; }
@@ -407,17 +474,19 @@
             .live-clock { padding: 6px 10px; }
             .live-clock .clock-time { font-size: 13px; }
             .live-clock .clock-date { font-size: 8px; }
-            .desktop-add-btn { display: none; }
+            .desktop-add-btn { width: 40px; height: 40px; padding: 0; border-radius: 50%; justify-content: center; font-size: 0; gap: 0; flex-shrink: 0; box-shadow: 0 0 12px rgba(35,61,255,.45); }
+            .desktop-add-btn i { font-size: 15px; }
             .mobile-add-section { display: flex; justify-content: center; margin: 20px 0; }
             .mobile-add-section .add-btn { padding: 14px 28px; font-size: 1.05rem; border-radius: 6px; box-shadow: 0 0 15px rgba(26,115,232,.4); }
             .top-bar { padding: 16px 0; }
-            .summary-row { gap: 10px; margin-bottom: 14px; flex-wrap: nowrap; overflow-x: auto; padding: 8px 4px; }
-            .summary-box { flex: 1 1 0; min-width: auto; padding: 14px 6px; flex-direction: column; gap: 4px; }
-            .summary-box .icon { font-size: 18px; }
-            .summary-box .count { font-size: 24px; }
-            .summary-box .label { font-size: 12px; }
-            .filter-row { gap: 8px; margin-bottom: 14px; flex-wrap: wrap; padding: 8px 0; }
-            .filter-box { flex: 1 1 calc(33.33% - 6px); min-width: 96px; padding: 12px 8px; font-size: 12px; gap: 6px; }
+            .summary-row { gap: 8px; margin-bottom: 14px; flex-wrap: nowrap; overflow-x: auto; padding: 6px 0; }
+            .summary-box { flex: 1 1 0; min-width: auto; padding: 10px 6px; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 7px; }
+            .summary-box .icon { font-size: 15px; margin-bottom: 0; }
+            .summary-box .count { font-size: 22px; line-height: 1; margin-bottom: 0; }
+            .summary-box .label { font-size: 10px; flex-basis: 100%; text-align: center; letter-spacing: 1px; margin-top: 2px; }
+            .filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; padding: 6px 0; overflow: visible; }
+            .filter-box { min-width: 0; padding: 10px 8px; font-size: 12px; gap: 4px; }
+            .filter-box.month { grid-column: 1 / -1; }
             .filter-box .count { font-size: 15px; }
             .imp-panel .important-dates { grid-template-columns: repeat(2, 1fr); }
             .date-selector-row { flex-direction: row; align-items: center; gap: 8px; padding: 8px 10px; }
@@ -429,34 +498,42 @@
             .imp-chip .imp-note { font-size: 10px; max-width: 90px; }
             .refresh-btn { padding: 8px 12px; font-size: 11px; }
             .mobile-add-section .add-btn { width: 100%; max-width: 340px; }
-            .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .card-box { font-size: 11.5px; min-height: 245px; }
-            .card-header { padding: 8px 9px; flex-wrap: nowrap; }
+            .cards-grid { grid-template-columns: 1fr; gap: 16px; padding: 0 10px; }
+            .card-box { font-size: 13.5px; min-height: 0; }
+            .card-header { padding: 10px 12px; flex-wrap: nowrap; }
             .card-title { min-width: 0; flex: 1; }
-            .card-name { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .card-phone { font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .card-head-side { flex-shrink: 0; }
-            .card-people-m { font-size: 14px; padding: 4px 8px; }
-            .card-highlights { margin: -8px -9px 0; }
+            .card-name { font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .card-phone { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .card-head-side { flex-shrink: 0; flex-direction: row; gap: 6px; }
+            .card-head-side .card-table .table-select-wrapper { width: 66px; height: 34px; }
+            .card-head-side .card-table .table-pill { width: 66px; height: 34px; font-size: 11px; }
+            .card-head-side .card-table .table-select-wrapper.sel { width: 78px; }
+            .card-head-side .card-table .table-pill.sel { width: 78px; font-size: 12px; letter-spacing: 1px; }
+            .card-people-m { font-size: 18px; padding: 0 11px; height: 34px; box-sizing: border-box; }
+            .card-highlights { margin: -10px -12px 0; }
             .card-day { font-size: 10px; }
             .card-people { font-size: 14px; }
-            .card-body { padding: 8px 9px; gap: 6px; }
+            .card-body { padding: 10px 12px; gap: 7px; }
             .card-row { flex-wrap: nowrap; }
-            .card-tag { font-size: 8px; white-space: nowrap; flex-shrink: 0; }
-            .card-value, .card-note { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .card-note-box { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .card-date, .card-time { font-size: 10.5px; white-space: nowrap; }
-            .card-advance, .card-table { font-size: 10px; white-space: nowrap; }
+            .card-tag { font-size: 10px; white-space: nowrap; flex-shrink: 0; }
+            .card-value, .card-note { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .card-note-box { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .card-date, .card-time { font-size: 12px; white-space: nowrap; }
+            .card-advance { font-size: 15px; white-space: nowrap; }
+            .card-table { font-size: 12px; white-space: nowrap; }
             .hl-item { min-width: 0; }
-            .hl-label, .hl-value { font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-            .card-actions { flex-wrap: wrap; margin-top: auto; }
-            .card-actions .edit-btn, .card-actions .delete-btn, .card-actions .view-btn { flex: 1; padding: 7px 4px; font-size: 10px; text-align: center; }
+            .hl-label { font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+            .hl-value { font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+            .status-badge { font-size: 11px; padding: 7px 12px; }
+            .card-actions { flex-wrap: nowrap; margin-top: auto; }
+            .card-actions .edit-btn, .card-actions .delete-btn, .card-actions .view-btn { padding: 8px 11px; font-size: 13px; text-align: center; }
             .charts-row { flex-direction: column; flex-wrap: wrap; gap: 16px; margin-top: 24px; align-items: center; }
             .chart-container { min-width: 0; max-width: 100%; width: calc(100% - 16px); margin: 0 auto; height: 240px; min-height: 240px; border-radius: 10px; padding: 12px; box-sizing: border-box; }
             .chart-header { padding: 9px 12px 7px; border-radius: 8px; }
             th, td { font-size: 14px; padding: 11px 6px; white-space: nowrap; }
             td.note-cell { white-space: pre-wrap; max-width: 20ch; overflow-wrap: anywhere; word-break: break-word; }
             .container { padding: 0 8px; }
+            .footer-inner { justify-content: center; text-align: center; }
         }
     </style>
 </head>
@@ -467,10 +544,18 @@
     <button class="add-btn" id="unlock-btn" style="margin-top: 16px;">Unlock</button>
 </div>
 <div class="container">
-    <div class="top-bar">
-        <div class="restaurant-title" id="restaurant-title">RAVINTOLA TANDOORI VILLA</div>
-        <div class="top-actions">
+    <div class="top-hero-wrap">
+    <div class="top-hero">
+        <div class="top-hero-main">
+            <div class="brand">
+                <div class="brand-logo"><i class="fas fa-utensils"></i></div>
+                <div class="brand-text">
+                    <div class="restaurant-title" id="restaurant-title">BDM RESERVATIONS</div>
+                </div>
+            </div>
+            <div class="top-actions">
             <button class="add-btn desktop-add-btn" onclick="window.location.href='reservation.html'"><i class="fa fa-plus"></i> Add New Reservation</button>
+            <button class="req-btn" id="req-btn" title="New reservations"><span class="req-label">New</span><i class="fas fa-concierge-bell"></i><span class="notification-badge" id="req-badge" style="display:none">0</span></button>
             <button class="notification-btn" id="notification-btn" title="Notifications"><i class="fas fa-bell"></i><span class="notification-badge" id="notification-badge">0</span></button>
             <button class="login-btn" onclick="window.location.href='profile.html'" title="Profile"><i class="fas fa-user"></i></button>
             <div class="notification-panel" id="notification-panel">
@@ -482,6 +567,16 @@
                 <div class="notification-pagination" id="notification-pagination"></div>
             </div>
         </div>
+    </div>
+
+    <div class="wx-card">
+        <div class="wx-current" id="wx-current"><div class="wx-now"><i class="fas fa-circle-notch fa-spin wi-cloud"></i><span class="wx-temp">--°</span><span class="wx-info"><b>Helsinki</b><em>Loading weather…</em></span></div></div>
+        <div class="wx-photos">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=60" alt="Restaurant interior">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=60" alt="Fine dining">
+            <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=60" alt="Restaurant table">
+        </div>
+    </div>
     </div>
 
     <div class="summary-row">
@@ -569,6 +664,48 @@
         </div>
     </div>
 
+    <div class="charts-row">
+        <div class="chart-container">
+            <div class="chart-header" id="weekChartHeader">
+                <div class="chart-header-left">
+                    <span class="chart-header-title" id="weekChartHeaderTitle">Reports: Next 7 Days</span>
+                </div>
+                <span class="chart-header-year" id="weekChartHeaderYear"></span>
+            </div>
+            <div class="chart-controls">
+                <label for="weekChartDropdown">Show:</label>
+                <select id="weekChartDropdown" class="chart-dropdown">
+                    <option value="reservations">Total Reservations</option>
+                    <option value="people">Total People</option>
+                </select>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;">
+                <canvas id="weekChart"></canvas>
+            </div>
+            <div class="chart-totals-row" id="weekChartTotalsRow"></div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header" id="yearChartHeader">
+                <div class="chart-header-left">
+                    <span class="chart-header-title" id="yearChartHeaderTitle">Report: Jan - Dec</span>
+                </div>
+                <span class="chart-header-year" id="yearChartHeaderYear"></span>
+            </div>
+            <div class="chart-controls">
+                <label for="yearChartDropdown">Show:</label>
+                <select id="yearChartDropdown" class="chart-dropdown">
+                    <option value="reservations">Total Reservations</option>
+                    <option value="people">Total People</option>
+                </select>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;">
+                <canvas id="yearChart"></canvas>
+            </div>
+            <div class="chart-totals-row" id="yearChartTotalsRow"></div>
+        </div>
+    </div>
+
     <div class="cal-note-popup" id="cal-note-popup">
         <div class="cal-note-box">
             <div class="cal-note-icon"><i class="fa fa-star"></i></div>
@@ -608,6 +745,13 @@
     <div class="table-picker" id="table-picker">
         <div class="tp-title">Select Table</div>
         <div class="tp-grid" id="tp-grid"></div>
+    </div>
+
+    <div class="status-picker" id="status-picker">
+        <div class="tp-title">Set Status</div>
+        <button type="button" class="sp-btn pending" data-status="pending"><i class="fa fa-clock"></i> Pending</button>
+        <button type="button" class="sp-btn completed" data-status="completed"><i class="fa fa-check"></i> Completed</button>
+        <button type="button" class="sp-btn cancelled" data-status="cancelled"><i class="fa fa-times"></i> Cancelled</button>
     </div>
 
     <div class="mobile-add-section">
@@ -654,47 +798,12 @@
         <div class="pagination-container" id="pagination-container"></div>
     </div>
 
-    <div class="charts-row">
-        <div class="chart-container">
-            <div class="chart-header" id="weekChartHeader">
-                <div class="chart-header-left">
-                    <span class="chart-header-title" id="weekChartHeaderTitle">Reports: Next 7 Days</span>
-                </div>
-                <span class="chart-header-year" id="weekChartHeaderYear"></span>
-            </div>
-            <div class="chart-controls">
-                <label for="weekChartDropdown">Show:</label>
-                <select id="weekChartDropdown" class="chart-dropdown">
-                    <option value="reservations">Total Reservations</option>
-                    <option value="people">Total People</option>
-                </select>
-            </div>
-            <div style="flex:1;display:flex;align-items:center;">
-                <canvas id="weekChart"></canvas>
-            </div>
-            <div class="chart-totals-row" id="weekChartTotalsRow"></div>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand"><i class="fas fa-utensils"></i> BDM RESERVATIONS</span>
+            <span class="footer-copy">&copy; 2026 BDM Reservations &bull; Powered by Firebase &amp; <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a></span>
         </div>
-
-        <div class="chart-container">
-            <div class="chart-header" id="yearChartHeader">
-                <div class="chart-header-left">
-                    <span class="chart-header-title" id="yearChartHeaderTitle">Report: Jan - Dec</span>
-                </div>
-                <span class="chart-header-year" id="yearChartHeaderYear"></span>
-            </div>
-            <div class="chart-controls">
-                <label for="yearChartDropdown">Show:</label>
-                <select id="yearChartDropdown" class="chart-dropdown">
-                    <option value="reservations">Total Reservations</option>
-                    <option value="people">Total People</option>
-                </select>
-            </div>
-            <div style="flex:1;display:flex;align-items:center;">
-                <canvas id="yearChart"></canvas>
-            </div>
-            <div class="chart-totals-row" id="yearChartTotalsRow"></div>
-        </div>
-    </div>
+    </footer>
 </div>
 
 <!-- Modal Popup for Viewing and Editing -->
@@ -744,6 +853,31 @@
     }
     updateLiveClock();
     setInterval(updateLiveClock, 1000);
+
+    /* Helsinki weather — iPhone-style 24h strip (Open-Meteo, no API key) */
+        const WX_CODES = [[0,'fa-sun','Clear','wi-sun'],[1,'fa-sun','Mostly Clear','wi-sun'],[2,'fa-cloud-sun','Partly Cloudy','wi-sun'],[3,'fa-cloud','Overcast','wi-cloud'],[45,'fa-smog','Fog','wi-fog'],[48,'fa-smog','Fog','wi-fog'],[51,'fa-cloud-rain','Drizzle','wi-rain'],[53,'fa-cloud-rain','Drizzle','wi-rain'],[55,'fa-cloud-rain','Drizzle','wi-rain'],[56,'fa-cloud-rain','Freezing Drizzle','wi-rain'],[57,'fa-cloud-rain','Freezing Drizzle','wi-rain'],[61,'fa-cloud-rain','Rain','wi-rain'],[63,'fa-cloud-rain','Rain','wi-rain'],[65,'fa-cloud-showers-heavy','Heavy Rain','wi-rain'],[66,'fa-cloud-rain','Freezing Rain','wi-rain'],[67,'fa-cloud-rain','Freezing Rain','wi-rain'],[71,'fa-snowflake','Snow','wi-snow'],[73,'fa-snowflake','Snow','wi-snow'],[75,'fa-snowflake','Snow','wi-snow'],[77,'fa-snowflake','Snow','wi-snow'],[80,'fa-cloud-showers-heavy','Showers','wi-rain'],[81,'fa-cloud-showers-heavy','Showers','wi-rain'],[82,'fa-cloud-showers-heavy','Heavy Showers','wi-rain'],[85,'fa-snowflake','Snow','wi-snow'],[86,'fa-snowflake','Snow','wi-snow'],[95,'fa-bolt','Thunderstorm','wi-storm'],[96,'fa-bolt','Thunderstorm','wi-storm'],[99,'fa-bolt','Thunderstorm','wi-storm']];
+    function wxInfo(code, isDay) {
+        const m = WX_CODES.find(w => w[0] === code) || [code, 'fa-cloud', '—', 'wi-cloud'];
+        let icon = m[1], cls = m[3];
+        if(isDay === 0 && code <= 1) { icon = 'fa-moon'; cls = 'wi-moon'; }
+        else if(isDay === 0 && code === 2) { icon = 'fa-cloud-moon'; cls = 'wi-moon'; }
+        return { icon: icon, label: m[2], cls: cls };
+    }
+    async function loadWeather() {
+        const curEl = document.getElementById('wx-current');
+        try {
+            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=60.1699&longitude=24.9384&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,is_day&timezone=Europe%2FHelsinki');
+            const data = await res.json();
+            const c = data.current;
+            let info = wxInfo(c.weather_code, c.is_day !== undefined ? c.is_day : 1);
+            if(Math.round(c.wind_speed_10m) >= 30 && c.weather_code < 50) info = { icon: 'fa-wind', label: 'Windy', cls: 'wi-wind' };
+            curEl.innerHTML = `<div class="wx-now"><i class="fas ${info.icon} ${info.cls}"></i><span class="wx-temp">${Math.round(c.temperature_2m)}°</span><span class="wx-info"><b>Helsinki</b><em>${info.label} · Feels ${Math.round(c.apparent_temperature)}° · Wind ${Math.round(c.wind_speed_10m)} km/h</em></span></div>`;
+        } catch(err) {
+            curEl.innerHTML = '<div class="wx-now"><i class="fas fa-cloud wi-cloud"></i><span class="wx-info"><b>Helsinki</b><em>Weather unavailable</em></span></div>';
+        }
+    }
+    loadWeather();
+    setInterval(loadWeather, 30 * 60 * 1000);
     if(restaurantTitle) {
         db.ref('settings/activeRestaurantName').on('value', snap => {
             restaurantTitle.textContent = snap.val() || 'RAVINTOLA TANDOORI VILLA';
@@ -1131,6 +1265,7 @@
         held.sort((a,b) => String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
         if(!held.length) {
             holdList.innerHTML = '<div class="hold-empty">No new reservations</div>';
+            updateReqBadge();
             return;
         }
         holdList.innerHTML = held.map(r => `
@@ -1139,14 +1274,27 @@
                     <div class="hold-name">${escapeHtml(r.user?.name || 'N/A')}</div>
                     <div class="hold-meta">${r.date ? formatDateDisplay(r.date) : ''} &bull; ${formatTime(r.time)||''} &bull; ${r.numberOfPeople || r.people || '-'} ppl</div>
                 </div>
-                <button class="hold-confirm" data-id="${r.id}">Confirm</button>
+                <div class="hold-actions">
+                    <button class="hold-confirm" data-id="${r.id}">Confirm</button>
+                    <button class="hold-cancel" data-id="${r.id}">Cancel</button>
+                </div>
             </div>
         `).join('');
+        updateReqBadge();
+    }
+
+    function updateReqBadge() {
+        const el = document.getElementById('req-badge');
+        if(!el) return;
+        const n = reservations.filter(r => r.held).length;
+        el.textContent = n;
+        el.style.display = n ? 'flex' : 'none';
     }
 
     holdList.addEventListener('click', function(e){
-        const btn = e.target.closest('.hold-confirm');
+        const btn = e.target.closest('.hold-confirm') || e.target.closest('.hold-cancel');
         if(!btn) return;
+        const isCancel = btn.classList.contains('hold-cancel');
         const id = btn.dataset.id;
         const r = reservations.find(o=>o.id===id);
         if(!r) return;
@@ -1156,11 +1304,15 @@
         if(!holdList.querySelector('.hold-item')) {
             holdList.innerHTML = '<div class="hold-empty">No new reservations</div>';
         }
-        db.ref('reservations/'+id).update({ held: false }, function(error){
+        updateReqBadge();
+        const patch = isCancel ? { held: false, status: 'cancelled', _tableStatus: 'cancelled' } : { held: false };
+        if(isCancel) { r._tableStatus = 'cancelled'; r.status = 'cancelled'; }
+        db.ref('reservations/'+id).update(patch, function(error){
             if(error) {
                 r.held = true;
+                if(isCancel) { r._tableStatus = 'pending'; r.status = 'accepted'; }
                 renderHoldList();
-                alert('Failed to confirm reservation. Try again.');
+                alert('Failed to ' + (isCancel ? 'cancel' : 'confirm') + ' reservation. Try again.');
                 return;
             }
             updateCounts();
@@ -1169,6 +1321,17 @@
             renderCalendar();
         });
     });
+
+    const reqBtn = document.getElementById('req-btn');
+    if(reqBtn) {
+        reqBtn.addEventListener('click', function(){
+            const box = document.querySelector('.hold-box');
+            if(!box) return;
+            box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            box.classList.add('flash');
+            setTimeout(function(){ box.classList.remove('flash'); }, 1500);
+        });
+    }
     const impToggleBtn = document.getElementById('imp-toggle');
     const impPanel = document.getElementById('imp-panel');
     if(impToggleBtn && impPanel) {
@@ -1392,11 +1555,18 @@
         return `<span class="status-toggle">${stBtn('pending','fa-clock','Pending')}${stBtn('completed','fa-check','Completed')}${stBtn('cancelled','fa-times','Cancelled')}</span>`;
     }
 
+    function renderStatusBadge(reservation) {
+        const status = reservation._tableStatus || 'pending';
+        const label = status.charAt(0).toUpperCase() + status.slice(1);
+        return `<button type="button" class="status-badge ${status}" data-id="${reservation.id}" title="Change status">${label} <i class="fa fa-caret-down"></i></button>`;
+    }
+
     function renderTableSelect(reservation) {
         const tableNumber = reservation.tableNumber || '';
+        const sel = tableNumber !== '' ? ' sel' : '';
         return `
-            <span class="table-select-wrapper">
-                <span class="table-pill" data-id="${reservation.id}">${tableNumber ? 'Table ' + tableNumber : 'Table'}</span>
+            <span class="table-select-wrapper${sel}">
+                <span class="table-pill${sel}" data-id="${reservation.id}">${tableNumber ? 'Table ' + tableNumber : 'Table'}</span>
             </span>
         `;
     }
@@ -1470,7 +1640,7 @@
                 const note = reservation.note ? (reservation.note.length > 120 ? reservation.note.slice(0, 120) + '…' : reservation.note) : 'N/A';
                 const advancePaid = reservation.advancePaid !== undefined && reservation.advancePaid !== '' ? '€' + Number(reservation.advancePaid).toFixed(2) : '-';
                 const tableSelect = renderTableSelect(reservation);
-                const statusSelect = renderStatusSelect(reservation);
+                const statusSelect = renderStatusBadge(reservation);
                 return `
                 <div class="card-box ${getStatusClass(reservation._tableStatus)}" style="--day-color:${dayColor}">
                     <div class="card-header">
@@ -1490,15 +1660,14 @@
                             <div class="hl-item"><span class="hl-label">People</span><span class="hl-value">${people}</span></div>
                         </div>
                         <div class="card-note-box">${note}</div>
-                        <div class="card-table-m">${tableSelect}</div>
                         <div class="card-row">
                             <span class="card-tag">Advance</span>
                             <span class="card-advance">${advancePaid}</span>
                         </div>
                         <div class="card-actions">
-                            <button class="edit-btn" data-id="${reservation.id}"><i class="fa fa-edit"></i> Edit</button>
-                            <button class="view-btn" data-id="${reservation.id}"><i class="fas fa-eye"></i> View</button>
-                            <button class="delete-btn" data-id="${reservation.id}"><i class="fa fa-trash"></i> Delete</button>
+                            <button class="edit-btn" data-id="${reservation.id}" title="Edit"><i class="fa fa-edit"></i></button>
+                            <button class="view-btn" data-id="${reservation.id}" title="View"><i class="fas fa-eye"></i></button>
+                            <button class="delete-btn" data-id="${reservation.id}" title="Delete"><i class="fa fa-trash"></i></button>
                             <span class="card-status">${statusSelect}</span>
                         </div>
                     </div>
@@ -1511,7 +1680,7 @@
                     e.stopPropagation();
                     let id = this.dataset.id;
                     let reservationObj = reservations.find(o=>o.id===id);
-                    if(reservationObj) showReservationModal(reservationObj);
+                    if(reservationObj) showReservationFull(reservationObj);
                 });
             });
             cardsGrid.querySelectorAll('.edit-btn').forEach(btn => {
@@ -1687,7 +1856,7 @@
         `;
 
         document.getElementById('cancel-edit-btn').addEventListener('click', ()=> {
-            showReservationModal(reservation);
+            closeModal();
         });
 
         document.getElementById('delete-edit-btn').addEventListener('click', ()=> {
@@ -1795,7 +1964,7 @@
         tpActiveId = id;
         const cur = String(r && r.tableNumber !== undefined && r.tableNumber !== null ? r.tableNumber : '');
         let btns = `<button type="button" class="tp-btn none${cur===''?' active':''}" data-tbl="">—</button>`;
-        for(let i=1; i<=16; i++) btns += `<button type="button" class="tp-btn${cur===String(i)?' active':''}" data-tbl="${i}">${i}</button>`;
+        for(let i=1; i<=15; i++) btns += `<button type="button" class="tp-btn${cur===String(i)?' active':''}" data-tbl="${i}">${i}</button>`;
         tpGrid.innerHTML = btns;
         const rect = anchorEl.getBoundingClientRect();
         const W = 176;
@@ -1812,26 +1981,64 @@
         tpActiveId = null;
     }
 
+    const statusPicker = document.getElementById('status-picker');
+    let spActiveId = null;
+    function openStatusPicker(id, anchorEl) {
+        const r = reservations.find(o=>o.id===id);
+        spActiveId = id;
+        const cur = r ? (r._tableStatus || 'pending') : '';
+        statusPicker.querySelectorAll('.sp-btn').forEach(b => b.classList.toggle('active', b.dataset.status === cur));
+        const rect = anchorEl.getBoundingClientRect();
+        let left = rect.left + rect.width / 2 - 80;
+        left = Math.max(8, Math.min(left, window.innerWidth - 168));
+        let top = rect.bottom + 6;
+        if(top + 190 > window.innerHeight) top = Math.max(8, rect.top - 190 - 6);
+        statusPicker.style.left = left + 'px';
+        statusPicker.style.top = top + 'px';
+        statusPicker.classList.add('open');
+    }
+    function closeStatusPicker() {
+        if(statusPicker) statusPicker.classList.remove('open');
+        spActiveId = null;
+    }
+
+    function setReservationStatus(id, newStatus) {
+        const reservation = reservations.find(o=>o.id===id);
+        if(reservation && reservation._tableStatus !== newStatus) {
+            reservation._tableStatus = newStatus;
+            const dbStatus = newStatus === 'pending' ? 'accepted' : newStatus;
+            db.ref('reservations/'+id).update({ status: dbStatus, _tableStatus: newStatus }, function(error){
+                if(!error) {
+                    updateCounts();
+                    renderTable();
+                    renderCharts();
+                } else {
+                    alert('Failed to update status. Try again.');
+                    loadReservations();
+                }
+            });
+        }
+    }
+
     document.addEventListener('click', function(e) {
         const stBtn = e.target.closest('.st-btn');
         if(stBtn) {
-            const id = stBtn.dataset.id;
-            const newStatus = stBtn.dataset.status;
-            const reservation = reservations.find(o=>o.id===id);
-            if(reservation && reservation._tableStatus !== newStatus) {
-                reservation._tableStatus = newStatus;
-                const dbStatus = newStatus === 'pending' ? 'accepted' : newStatus;
-                db.ref('reservations/'+id).update({ status: dbStatus, _tableStatus: newStatus }, function(error){
-                    if(!error) {
-                        updateCounts();
-                        renderTable();
-                        renderCharts();
-                    } else {
-                        alert('Failed to update status. Try again.');
-                        loadReservations();
-                    }
-                });
-            }
+            setReservationStatus(stBtn.dataset.id, stBtn.dataset.status);
+            return;
+        }
+        const badge = e.target.closest('.status-badge');
+        if(badge) {
+            const wasOpen = statusPicker.classList.contains('open') && spActiveId === badge.dataset.id;
+            closeStatusPicker();
+            if(!wasOpen) openStatusPicker(badge.dataset.id, badge);
+            return;
+        }
+        const spBtn = e.target.closest('.sp-btn');
+        if(spBtn) {
+            const id = spActiveId;
+            const newStatus = spBtn.dataset.status;
+            closeStatusPicker();
+            setReservationStatus(id, newStatus);
             return;
         }
         const pill = e.target.closest('.table-pill');
@@ -1857,6 +2064,7 @@
             return;
         }
         if(!e.target.closest('#table-picker')) closeTablePicker();
+        if(!e.target.closest('#status-picker')) closeStatusPicker();
     });
 
     summaryBoxes.forEach(box=>{
